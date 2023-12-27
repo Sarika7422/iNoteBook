@@ -2,6 +2,7 @@ import './App.css';
 import Home from './Components/Home';
 import About from './Components/About';
 import Navbar from './Components/Navbar';
+import NoteState from './Context/Notes/noteState'
 
 import {
   BrowserRouter as Router,
@@ -12,15 +13,20 @@ import {
 function App() {
   return (
     <>
-      <Navbar/>
-      <Router>
-        <Routes>
-          <Route path='/' element={<Home />} ></Route>
-        </Routes>
-        <Routes>
-          <Route path='/about' element={<About />} ></Route>
-        </Routes>
-      </Router>
+    {/* All states will be available to all components between this NoteState. */}
+      <NoteState> 
+        <Router>
+          <Navbar />
+          <div className="container">
+          <Routes>
+            <Route exact path='/' element={<Home />} key={"/home"} ></Route>
+          </Routes>
+          <Routes>
+            <Route exact path='/about' element={<About />} key={"/about"} ></Route>
+          </Routes>
+          </div>
+        </Router>
+      </NoteState>
     </>
   );
 }

@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react"
 
-function about() {
+
+function About() {
   return (
-    <div>this is about</div>
+    <div>This is about.</div>
   )
 }
 
-export default about
+export default About

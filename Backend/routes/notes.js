@@ -4,14 +4,14 @@ const fetchuser = require('../middleware/fetchUser');
 const Notes = require('../models/Notes');
 const { body, validationResult } = require('express-validator');
 
-//Router = 1, used for get all notes for a particular user, end point "/api/notes/" loggin required.
+//Router = 1, used for get all notes for a particular user, end point "/api/notes/fetchallnotes" loggin required.
 router.get("/fetchallnotes", fetchuser, async (req, res) => {
     const notes = await Notes.find({ user: req.user.id });
 
     res.json(notes);
 })
 
-//Router = 2, used for store notes into the data base using post request, end point "/api/notes/" loggin required.
+//Router = 2, used for store notes into the data base using post request, end point "/api/notes/addnotes" loggin required.
 router.post("/addnotes", fetchuser, [body('title', 'Enter a valid title').isLength({ min: 3 }), body('description', "Enter a valid description").isLength({ min: 5 })], async (req, res) => {
     try {
         const result = validationResult(req);

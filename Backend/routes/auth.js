@@ -4,7 +4,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fetchuser = require('../middleware/fetchUser');
-
 const { body, validationResult } = require('express-validator');
 // const jwtSecret = process.env.REACT_APP_JWT_SECRET;
 
@@ -65,7 +64,7 @@ router.post('/createuser',[body('name','Enter a valid name').isLength({min:3}),b
 });
 
 
-//Router = 2 : Validate a user ussing post "api/auth/login". Doesn't require authentication.
+//Router = 2 : Validate a user ussing post "api/auth/login".Require authentication.
 router.post('/login',[body('email','Enter a valid email.').isEmail(),body('passward','Passward cannot be blank').exists() ], async(req,res)=>{
     const result = validationResult(req);
     if (!result.isEmpty()) {
