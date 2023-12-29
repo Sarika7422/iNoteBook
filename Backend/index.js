@@ -4,6 +4,10 @@ const express = require('express')
 connectToMongo();
 
 const app = express()
+
+var cors = require('cors')
+app.use(cors())
+
 const port = 5000;
 // respond with "hello world" when a GET request is made to the homepage
 // app.get('/', (req, res) => {
