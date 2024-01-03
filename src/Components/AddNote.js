@@ -1,17 +1,24 @@
 import React, { useState } from 'react'
 import { useContext } from 'react'
 import noteContext from '../Context/Notes/noteContext'
+import modeContext from '../Context/Dark_lightMode/modeContext';
 
-export default function AddNote() {
+export default function AddNote(props) {
   const context = useContext(noteContext);
   const { addNotes } = context;
 
-  const [note, setNote] = useState({ title: "", description: "", tag: "default" });
+  const contextMode = useContext(modeContext);
+  const{mode} = contextMode;
+
+  const [note, setNote] = useState({ title: "", description: "", tag: "" });
   //This function will handle the final submit operation.
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log("note title: "+note.title);
     await addNotes(note.title, note.description, note.tag);
+
+    props.showAlert("Notes added successfully.","Success","success");
+    setNote({ title: "", description: "", tag: "" })
   }
 
   //This function will handle the changes occurs in the input form.
@@ -20,13 +27,13 @@ export default function AddNote() {
   }
   return (
     <>
-      <h2>Add Notes</h2>
+      <h2 style={{color:mode === 'dark'?'white':'black'}}>Add Notes</h2>
       <div className="container my-3">
         <form>
 
           <div className="mb-3">
-            <label htmlFor="title" className="form-label">Title</label>
-            <input type="text" className="form-control" id="title" name="title" onChange={handleChange}/>
+            <label htmlFor="title" className="form-label" style={{color:mode === 'dark'?'white':'black'}}>Title</label>
+            <input type="text" className="form-control" id="title" name="title" onChange={handleChange} value={note.title} style={{color:mode === 'dark'?'white':'black', backgroundColor:mode==='dark'?'#293340':'white'}}/>
           </div>
 
           {/* <div className="mb-3">
@@ -35,17 +42,17 @@ export default function AddNote() {
           </div> */}
 
           <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <textarea className="form-control" id="description" name = "description" rows="3" onChange={handleChange}></textarea>
+            <label htmlFor="description" style={{color:mode === 'dark'?'white':'black'}}>Description</label>
+            <textarea className="form-control" id="description" name = "description" rows="3" onChange={handleChange} value={note.description} style={{color:mode === 'dark'?'white':'black', backgroundColor:mode==='dark'?'#293340':'white'}}></textarea>
           </div>
 
           <div className="mb-3">
-            <label htmlFor="tag" className="form-label">Tag</label>
-            <input type="text" className="form-control" id="tag" name='tag' onChange={handleChange} />
+            <label htmlFor="tag" className="form-label" style={{color:mode === 'dark'?'white':'black'}}>Tag</label>
+            <input type="text" className="form-control" id="tag" name='tag' onChange={handleChange} value={note.tag} style={{color:mode === 'dark'?'white':'black', backgroundColor:mode==='dark'?'#293340':'white'}}/>
           </div>
 
           <button disabled = {note.title.length < 5 || note.description.length<5} type="submit" className="btn btn-primary" onClick={handleSubmit}>Add Note</button>
-          <div style={{height:"10px"}}>{(note.title.length < 5 || note.description.length<5)&&"[Title/Description should have at least 5 charactrers!]"}</div>
+          <div style={{height:"10px" , color:mode ==='dark'?'white':'black'}}>{(note.title.length < 5 || note.description.length<5)&&"[Title/Description should have at least 5 charactrers!]"} </div>
         </form>
       </div>
     </>

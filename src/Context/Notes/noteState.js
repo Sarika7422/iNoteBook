@@ -13,10 +13,10 @@ const NoteState = (props)=>{
           method: "GET", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjUzNTA2MDJkNmMyZDU2Yjk0NzdiM2M2IiwiaWF0IjoxNjk3OTczODIwfQ.ItrWnv57lQBMy0SobArPWhPD9ZBcfqDg8PkLshrF2ik"
+            "auth-token": localStorage.getItem('token')
           }});
         const json = await response.json();
-        console.log("json response is : ");
+        // console.log("json response is : ");
         setNotes(json);
       }
       
@@ -29,9 +29,9 @@ const NoteState = (props)=>{
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjUzNTA2MDJkNmMyZDU2Yjk0NzdiM2M2IiwiaWF0IjoxNjk3OTczODIwfQ.ItrWnv57lQBMy0SobArPWhPD9ZBcfqDg8PkLshrF2ik"
+            "auth-token": localStorage.getItem('token')
           },
-          body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
+          body: JSON.stringify({title,description,tag})// body data type must match "Content-Type" header
         });
         const json = await response.json();
         console.log("add note json : ",json );
@@ -49,14 +49,14 @@ const NoteState = (props)=>{
         setNotes(notes.concat(note));
       }
       //Delete note
-      const deleteNotes = async(id)=>{
+      const deleteNotes = async(id,showAlert)=>{
         // console.log("Id of the deleted note is : ",id);
         //API call
         const response = await fetch(`${host}/api/notes/deletenotes/${id}`, {
           method: "DELETE", // *GET, POST, PUT, DELETE, etc.
           headers: {
             "Content-Type": "application/json",
-            "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjUzNTA2MDJkNmMyZDU2Yjk0NzdiM2M2IiwiaWF0IjoxNjk3OTczODIwfQ.ItrWnv57lQBMy0SobArPWhPD9ZBcfqDg8PkLshrF2ik"
+            "auth-token": localStorage.getItem('token')
           }
         });
         const json =await response.json();
@@ -66,6 +66,7 @@ const NoteState = (props)=>{
         setNotes(notes.filter((note)=>{
           return note._id !== id;
         }));
+        showAlert("Notes deleted successfully.","Delete","success");
       }
       //Edit note
       const editNotes = async(id,title,description,tag)=>{
@@ -75,7 +76,7 @@ const NoteState = (props)=>{
             method: "PUT", // *GET, POST, PUT, DELETE, etc.
             headers: {
               "Content-Type": "application/json",
-              "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNjUzNTA2MDJkNmMyZDU2Yjk0NzdiM2M2IiwiaWF0IjoxNjk3OTczODIwfQ.ItrWnv57lQBMy0SobArPWhPD9ZBcfqDg8PkLshrF2ik"
+              "auth-token": localStorage.getItem('token')
             },
             body: JSON.stringify({title,description,tag}), // body data type must match "Content-Type" header
           });
