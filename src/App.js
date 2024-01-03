@@ -6,7 +6,7 @@ import NoteState from './Context/Notes/noteState'
 import Alert from './Components/Alert'
 import Login from './Components/Login';
 import Signup from './Components/Signup';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import ModeState from './Context/Dark_lightMode/modeState';
 
 import {
@@ -29,6 +29,23 @@ function App() {
       setAlert(null);
     }, 2500);
   }
+
+  //This works for log out the user when user close the window.
+  useEffect(() => {
+    const handleTabClose = event => {
+      // event.preventDefault();
+      localStorage.removeItem('token');
+
+      return (event.returnValue =
+        'Are you sure you want to exit?');
+    };
+
+    window.addEventListener('beforeunload', handleTabClose);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleTabClose);
+    };
+  }, []);
 
 
   return (
